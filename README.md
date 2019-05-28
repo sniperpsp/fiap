@@ -14,7 +14,7 @@ Sistema operacional Debian + Apache2 e acesso ao sistema com permissão root. ou
 
 1 - Instruções de download e preparação da instalação:
 Primeiramente clone o repositório com o comando abaixo:
-git clone https://github.com/msbjx5/LinuxClasses.git
+git clone https://github.com/sniperpsp/fiap.git
 
 Entre na pasta com os scripts
 cd LinuxClasses/Nac2
