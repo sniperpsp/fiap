@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+# verificando se o usuario e root
+if [ "$EUID" -ne 0 ]; then
+        echo "Desculpe, você precisa estar logado com usuário root"
+		exit 1
+fi
+
+clear
+# identificando o SO
+# e definida a varivael SO, cat para mostraro conteudo do arquivo, grep para pesquisar pela string, cut para omitir do resultado a string NAME=" em seguida para omitir o sinal de " e em seguida para omitir a string Linux
+SO=$(cat /etc/*release | grep ^NAME | cut -d "=" -f2 | cut -d '"' -f2 | cut -d " " -f1)
+
+# procedimento de backup baseado no SO identificado
+if [ $SO = Debian ];
+    then
+        clear
+        echo "Sistema operacional Debian detectado"
+        echo "Os seguintes diretorios serao apagados"
+        echo
+        echo "/etc/apache2"
+        echo "/var/log/apache2"
+        echo "/var/www"
+        echo
+        sleep 0.5
+        rm -rvf /etc/apache2 /var/log/apache2 /var/www
+        echo
+        echo
+		echo "EXCLUSOES REALIZADAS COM SUCESSO"
+        echo
+        echo "Listando os diretorios excluidos"
+        echo
+        set -x
+        ls -lah /etc/apache2
+        ls -lah /var/log/apache2
+        ls -lah /var/www
+        set +x
+        echo
+        echo "Agora rode o script de restore para validar a restauracao dos diretorios e arquivos"
+        echo
+else [ $SO = CentOS ];
+        clear
+        echo "Sistema operacional CentOS detectado"
+        echo "Os seguintes diretorios serao apagados"
+        echo
+        echo "/etc/httpd"
+        echo "/var/log/httpd"
+        echo "/var/www"
+        echo
+        sleep 0.5
+        set -x
+        rm -rvf /etc/httpd /var/log/httpd /var/www
+        echo
+        echo
+        echo "EXCLUSOES REALIZADAS COM SUCESSO"
+        echo
+        echo "Listando os diretorios excluidos"
+        echo
+        set -x
+        ls -lah /etc/httpd
+        ls -lah /var/log/httpd
+        ls -lah /var/www
+        set +x
+        echo
+        echo "Agora rode o script de restore para validar a restauracao dos diretorios e arquivos"
+fi
